@@ -73,7 +73,7 @@ const FallingLeaves = ({ count = 40 }) => {
     );
 };
 
-const Tree = () => {
+const Tree = ({ scale = 1 }) => {
     const leaves = useMemo(() => {
         const temp = [];
         const count = 280;
@@ -99,7 +99,7 @@ const Tree = () => {
     }, []);
 
     return (
-        <group position={[0, -1, 0]}>
+        <group position={[0, -1, 0]} scale={scale}>
             <mesh position={[0, 0.5, 0]}>
                 <cylinderGeometry args={[0.05, 0.1, 2.2, 12]} />
                 <meshStandardMaterial color="#4d3424" />
@@ -121,7 +121,7 @@ export default function HeartTree() {
                 <spotLight position={[-5, 5, 5]} angle={0.2} penumbra={1} />
                 <React.Suspense fallback={null}>
                     <Float speed={1} rotationIntensity={0.1} floatIntensity={0.3}>
-                        <Tree />
+                        <Tree scale={1.35} />
                     </Float>
                     <FallingLeaves />
                     <Environment preset="sunset" />
