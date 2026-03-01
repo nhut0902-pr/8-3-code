@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { Float, Environment } from '@react-three/drei';
+import React, { useMemo, useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Float, Environment, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 
-const HeartShape = ({ position, rotation, scale, color }) => {
+const HeartShape = React.forwardRef(({ position, rotation, scale, color }, ref) => {
     const shape = useMemo(() => {
         const s = new THREE.Shape();
         s.moveTo(0, 0);
@@ -17,10 +17,59 @@ const HeartShape = ({ position, rotation, scale, color }) => {
     const extrudeSettings = { depth: 0.05, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 0.05, bevelThickness: 0.05 };
 
     return (
-        <mesh position={position} rotation={rotation} scale={scale}>
+        <mesh ref={ref} position={position} rotation={rotation} scale={scale}>
             <extrudeGeometry args={[shape, extrudeSettings]} />
             <meshStandardMaterial color={color} roughness={0.4} metalness={0.1} />
         </mesh>
+    );
+});
+
+const FallingLeaves = ({ count = 40 }) => {
+    const leaves = useMemo(() => {
+        const temp = [];
+        for (let i = 0; i < count; i++) {
+            temp.push({
+                x: (Math.random() - 0.5) * 8,
+                y: Math.random() * 10 + 2,
+                z: (Math.random() - 0.5) * 8,
+                speed: 0.02 + Math.random() * 0.03,
+                rotationSpeed: [Math.random() * 0.02, Math.random() * 0.02, Math.random() * 0.02],
+                scale: 0.05 + Math.random() * 0.08,
+                color: ['#ff85a1', '#fbb1bd', '#ff99ac', '#fccad3'][Math.floor(Math.random() * 4)]
+            });
+        }
+        return temp;
+    }, [count]);
+
+    const refs = useRef([]);
+
+    useFrame(() => {
+        refs.current.forEach((ref, i) => {
+            if (ref) {
+                ref.position.y -= leaves[i].speed;
+                ref.rotation.x += leaves[i].rotationSpeed[0];
+                ref.rotation.y += leaves[i].rotationSpeed[1];
+                ref.rotation.z += leaves[i].rotationSpeed[2];
+
+                if (ref.position.y < -3) {
+                    ref.position.y = 7;
+                }
+            }
+        });
+    });
+
+    return (
+        <group>
+            {leaves.map((leaf, i) => (
+                <HeartShape
+                    key={i}
+                    ref={(el) => (refs.current[i] = el)}
+                    position={[leaf.x, leaf.y, leaf.z]}
+                    scale={leaf.scale}
+                    color={leaf.color}
+                />
+            ))}
+        </group>
     );
 };
 
@@ -66,16 +115,18 @@ const Tree = () => {
 export default function HeartTree() {
     return (
         <div style={{ width: '100%', height: '100%' }}>
-            <Canvas camera={{ position: [0, 1.2, 7.5], fov: 45 }} style={{ pointerEvents: 'none' }}>
+            <Canvas camera={{ position: [0, 1.2, 7.5], fov: 45 }}>
                 <ambientLight intensity={0.8} />
                 <pointLight position={[5, 5, 5]} intensity={1.2} />
                 <spotLight position={[-5, 5, 5]} angle={0.2} penumbra={1} />
                 <React.Suspense fallback={null}>
                     <Float speed={1} rotationIntensity={0.1} floatIntensity={0.3}>
-                    <Tree />
+                        <Tree />
                     </Float>
+                    <FallingLeaves />
                     <Environment preset="sunset" />
                 </React.Suspense>
+                <OrbitControls enableZoom={false} minPolarAngle={Math.PI/3} maxPolarAngle={Math.PI/1.5} />
             </Canvas>
         </div>
     );

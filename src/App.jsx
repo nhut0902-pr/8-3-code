@@ -7,9 +7,7 @@ import confetti from 'canvas-confetti';
 function App() {
   const [name, setName] = React.useState('');
   const [wish, setWish] = React.useState('');
-  const [isPlaying, setIsPlaying] = React.useState(false);
   const [clickHearts, setClickHearts] = React.useState([]);
-  const audioRef = React.useRef(null);
 
   const wishes = [
     "Chúc bạn luôn rạng rỡ như hoa hướng dương!",
@@ -41,15 +39,6 @@ function App() {
     setTimeout(() => {
       setClickHearts(prev => prev.filter(h => h.id !== newHeart.id));
     }, 1000);
-  };
-
-  const toggleMusic = () => {
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
-    }
-    setIsPlaying(!isPlaying);
   };
 
   const targetDate = React.useMemo(() => {
@@ -245,21 +234,6 @@ function App() {
           ❤
         </motion.div>
       ))}
-
-      {/* Music Player */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <button
-          onClick={toggleMusic}
-          className="w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-2xl hover:scale-110 transition-transform"
-        >
-          {isPlaying ? '⏸' : '🎵'}
-        </button>
-        <audio
-          ref={audioRef}
-          loop
-          src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-        />
-      </div>
 
       {/* Footer */}
       <footer className="relative z-10 py-10 text-gray-400 text-sm text-center">
