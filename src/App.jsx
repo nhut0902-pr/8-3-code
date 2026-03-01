@@ -245,8 +245,15 @@ function App() {
       ))}
 
       {/* Footer */}
-      <footer className="relative z-10 py-10 text-gray-400 text-sm text-center">
-        Powered by <span className="text-pink-400 font-semibold">nhutcoder</span>
+      <footer className="relative z-10 py-10 flex flex-col items-center gap-3 text-gray-400 text-sm text-center">
+        <img
+          src="/logo.jpg"
+          alt="NhutCoder Logo"
+          className="w-12 h-12 rounded-full border-2 border-pink-200 shadow-sm"
+        />
+        <p>
+          Powered by <span className="text-pink-400 font-semibold text-base">nhutcoder</span>
+        </p>
       </footer>
 
       {/* Particle effect overlay */}
