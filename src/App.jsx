@@ -17,6 +17,24 @@ function App() {
     return target;
   }, []);
 
+  const floatingHeartsData = React.useMemo(() => {
+    return [...Array(8)].map((_, i) => ({
+      x: (i * 15) + "%",
+      duration: 15 + Math.random() * 20,
+      delay: Math.random() * 10,
+      sinOffset: Math.sin(i) * 5
+    }));
+  }, []);
+
+  const particlesData = React.useMemo(() => {
+    return [...Array(20)].map(() => ({
+      x: Math.random() * 100 + "%",
+      y: Math.random() * 100 + "%",
+      duration: 3 + Math.random() * 4,
+      delay: Math.random() * 5
+    }));
+  }, []);
+
   useEffect(() => {
     // Initial celebration
     const duration = 3 * 1000;
@@ -104,22 +122,22 @@ function App() {
       </main>
 
       {/* Floating hearts animation */}
-      {[...Array(8)].map((_, i) => (
+      {floatingHeartsData.map((heart, i) => (
         <motion.div
           key={i}
           className="absolute text-pink-400/20 text-3xl select-none pointer-events-none"
           initial={{
-            x: (i * 15) + "%",
+            x: heart.x,
             y: "110vh"
           }}
           animate={{
             y: "-10vh",
-            x: (i * 15 + Math.sin(i) * 5) + "%"
+            x: `calc(${heart.x} + ${heart.sinOffset}%)`
           }}
           transition={{
-            duration: 15 + Math.random() * 20,
+            duration: heart.duration,
             repeat: Infinity,
-            delay: Math.random() * 10,
+            delay: heart.delay,
             ease: "linear"
           }}
         >
@@ -129,13 +147,13 @@ function App() {
 
       {/* Particle effect overlay */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {[...Array(20)].map((_, i) => (
+          {particlesData.map((particle, i) => (
               <motion.div
                   key={`p-${i}`}
                   className="absolute w-1 h-1 bg-white rounded-full"
                   initial={{
-                      x: Math.random() * 100 + "%",
-                      y: Math.random() * 100 + "%",
+                      x: particle.x,
+                      y: particle.y,
                       opacity: 0
                   }}
                   animate={{
@@ -143,9 +161,9 @@ function App() {
                       scale: [0, 1.5, 0]
                   }}
                   transition={{
-                      duration: 3 + Math.random() * 4,
+                      duration: particle.duration,
                       repeat: Infinity,
-                      delay: Math.random() * 5
+                      delay: particle.delay
                   }}
               />
           ))}
