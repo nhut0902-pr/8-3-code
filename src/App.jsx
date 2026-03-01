@@ -107,11 +107,20 @@ function App() {
 
   return (
     <div className="min-h-screen w-full bg-[#fdf2f4] overflow-hidden relative font-sans text-gray-800" onClick={handleGlobalClick}>
+      {/* Demo Notice Banner */}
+      <motion.div
+        initial={{ y: -50 }}
+        animate={{ y: 0 }}
+        className="fixed top-0 left-0 w-full bg-pink-500/90 backdrop-blur-md text-white py-2 px-4 text-center text-sm font-medium z-[100] shadow-md"
+      >
+        ✨ Thông báo: Web này chỉ <span className="font-bold underline">DEMO</span> thôi, ai muốn lấy code vui lòng nhắn tin qua inbox cho mình! ✨
+      </motion.div>
+
       {/* Background soft glow effects */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-pink-200/30 rounded-full blur-[120px]" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-yellow-100/30 rounded-full blur-[120px]" />
 
-      <main className="relative z-10 max-w-6xl mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-screen text-center">
+      <main className="relative z-10 max-w-6xl mx-auto px-4 pt-16 pb-8 flex flex-col items-center justify-center min-h-screen text-center">
 
         {/* Personalized Name Input */}
         <motion.div
