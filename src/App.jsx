@@ -254,6 +254,28 @@ function App() {
         <p>
           Powered by <span className="text-pink-400 font-semibold text-base">nhutcoder</span>
         </p>
+
+        <div className="flex flex-wrap justify-center gap-4 mt-2">
+          <a
+            href="https://www.tiktok.com/@nhutcoder0902?_r=1&_t=ZS-94K3YVvFSI4"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 bg-black text-white px-5 py-2 rounded-full font-medium hover:scale-105 transition-transform text-xs md:text-sm"
+          >
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
+              <path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/>
+            </svg>
+            TikTok
+          </a>
+          <a
+            href="https://www.tiktok.com/@nhutcoder0902?_r=1&_t=ZS-94K3YVvFSI4"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-5 py-2 rounded-full font-medium hover:scale-105 transition-transform text-xs md:text-sm shadow-md shadow-pink-200"
+          >
+            💬 Nhắn tin ngay
+          </a>
+        </div>
       </footer>
 
       {/* Particle effect overlay */}
